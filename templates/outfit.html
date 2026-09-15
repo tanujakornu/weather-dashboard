@@ -16,7 +16,7 @@
     <div class="outfit-basis-row mb-3">
         <span class="stat-chip">🌡️ Feels like <b data-temp-c="{{ weather.outfit.based_on.feels_like }}">{{ weather.outfit.based_on.feels_like }}°C</b></span>
         <span class="stat-chip">💨 Wind <b>{{ weather.outfit.based_on.wind_speed }} m/s</b></span>
-        <span class="stat-chip">☔ Rain chance <b>{{ weather.outfit.based_on.pop if weather.outfit.based_on.pop is not none else 0 }}%</b></span>
+        <span class="stat-chip">☔ Rain chance <b>{{ weather.outfit.based_on['pop'] if weather.outfit.based_on['pop'] is not none else 0 }}%</b></span>
         {% if weather.outfit.based_on.aqi %}<span class="stat-chip">🌬️ AQI <b>{{ weather.outfit.based_on.aqi }} ({{ weather.aqi_desc }})</b></span>{% endif %}
     </div>
     <p class="text-muted small mb-3" style="font-size:0.8rem;">This verdict is worked out live from the numbers above — not just today's sky icon.</p>
@@ -58,7 +58,7 @@
             {% for item in d.outfit.clothing[:2] %}{{ item }}{{ ", " if not loop.last }}{% endfor %}
         </div>
         <div class="daily-outfit-basis" style="font-size:0.72rem;">
-            ☔ {{ d.pop if d.pop is not none else 0 }}% &nbsp;·&nbsp; 💨 {{ d.wind_speed if d.wind_speed is not none else '–' }} m/s
+            ☔ {{ d['pop'] if d['pop'] is not none else 0 }}% &nbsp;·&nbsp; 💨 {{ d.wind_speed if d.wind_speed is not none else '–' }} m/s
         </div>
     </div>
     {% endfor %}
