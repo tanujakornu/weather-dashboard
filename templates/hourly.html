@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}⏰ Hourly Forecast — Weather Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">⏰ Hourly Forecast</h2>
+<p class="text-muted mb-3">3-hour steps covering the next {{ (hourly|length * 3) if hourly else 0 }} hours.</p>
+
+{% include "_context_banner.html" %}
+
+{% if hourly %}
+<div class="daily-grid">
+    {% for h in hourly %}
+    <div class="daily-card">
+        <div class="daily-label">{{ h.hour_label }}</div>
+        <div class="text-muted" style="font-size:0.78rem;">{{ h.date_label }}</div>
+        <img src="https://openweathermap.org/img/wn/{{ h.icon }}@2x.png" alt="{{ h.description }}">
+        <div class="daily-range">
+            <b data-temp-c="{{ h.temp }}">{{ h.temp }}°C</b>
+        </div>
+        <div class="text-muted" style="font-size:0.82rem;">{{ h.description }}</div>
+        <div style="font-size:0.8rem;">💧 Humidity {{ h.humidity }}%</div>
+        {% if h['pop'] is not none %}<div style="font-size:0.8rem;">☔ Rain chance {{ h['pop'] }}%</div>{% endif %}
+        {% if h.wind_speed is not none %}<div style="font-size:0.8rem;">🌬️ {{ h.wind_speed }} m/s</div>{% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% block title %}🌦 Weather Dashboard — Home{% endblock %}
+
+{% block extra_head %}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<!-- html2canvas: powers the "share weather card as image" button -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<p class="text-center mb-4">Current conditions, hourly &amp; daily outlook, and what to wear — all in one place.</p>
+
+<!-- Loading Spinner -->
+<div id="loadingSpinner" class="text-center my-4">
+  <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
+  <p>Fetching weather data...</p>
+</div>
+
+<!-- Search Form & Controls -->
+<div class="glass-panel p-3 mb-4">
+<form method="POST" action="/" class="d-flex justify-content-center align-items-center mb-2 flex-wrap gap-2">
+    <input type="text" name="city" class="form-control w-50" placeholder="Enter city name" required>
+    <input type="hidden" name="lat" id="latField">
+    <input type="hidden" name="lon" id="lonField">
+    <button class="btn btn-primary">Search</button>
+    <button type="button" id="locateBtn" class="btn btn-outline-light">📍 Use My Location</button>
+
+    <div class="d-flex align-items-center ms-2">
+        <label class="me-2">Units:</label>
+        <button type="button" id="celsiusBtn" class="btn btn-sm btn-primary me-1">°C</button>
+        <button type="button" id="fahrenheitBtn" class="btn btn-sm btn-outline-secondary">°F</button>
+    </div>
+
+    <button type="button" id="refreshBtn" class="btn btn-outline-success">🔄 Refresh</button>
+</form>
+<div id="searchHistory" class="text-center mt-1">
+    <strong>Recent Searches:</strong>
+    <div id="historyButtons" class="mt-1"></div>
+</div>
+</div>
+
+{% if error %}
+<div class="alert alert-danger text-center">{{ error }}</div>
+{% endif %}
+
+<!-- Saved Cities -->
+<div class="mb-3">
+  {% if session.get('saved_cities') %}
+  <div class="card shadow-sm mb-3">
+    <div class="card-header"><strong>📌 Saved Cities</strong></div>
+    <div class="card-body d-flex flex-wrap gap-2 align-items-center">
+      {% for c in session['saved_cities'] %}
+      <span class="badge bg-primary fs-6">{{ c }}
+        <form method="POST" action="/remove_city" style="display:inline">
+          <input type="hidden" name="city" value="{{ c }}">
+          <button type="submit" class="btn-close btn-close-white ms-1" style="font-size:0.6rem;" aria-label="Remove"></button>
+        </form>
+      </span>
+      {% endfor %}
+      <a href="/compare" class="btn btn-outline-info btn-sm ms-2">Compare All →</a>
+    </div>
+  </div>
+  {% endif %}
+  {% if weather %}
+  <form method="POST" action="/save_city" class="d-inline">
+    <input type="hidden" name="city" value="{{ weather.city }}">
+    <button type="submit" class="btn btn-outline-success btn-sm mb-3">📌 Save {{ weather.city }}</button>
+  </form>
+  {% endif %}
+</div>
+
+{% if weather %}
+
+<!-- Hero: Current Weather -->
+<div class="card hero-card mb-4" id="heroCard" data-city="{{ weather.city }}">
+    <h2>{{ weather.city }}, {{ weather.country }}</h2>
+    <p class="text-muted mb-2">Local Time: {{ weather.local_time }} {{ '☀️' if weather.is_day else '🌙' }}</p>
+    <img class="hero-icon" src="https://openweathermap.org/img/wn/{{ weather.icon }}@4x.png" alt="{{ weather.description }}">
+    <div class="hero-temp" data-temp-c="{{ weather.temperature }}" data-temp-decimals="1">{{ weather.temperature }}°C</div>
+    <p class="lead mb-1">{{ weather.description }}</p>
+    <p class="hero-feels">Feels like <span data-temp-c="{{ weather.feels_like }}" data-temp-decimals="1">{{ weather.feels_like }}°C</span>
+       &nbsp;|&nbsp; H: <span data-temp-c="{{ weather.temp_max }}" data-temp-decimals="1">{{ weather.temp_max }}°C</span>
+       &nbsp;L: <span data-temp-c="{{ weather.temp_min }}" data-temp-decimals="1">{{ weather.temp_min }}°C</span></p>
+    <p class="mb-1">🌅 Sunrise: {{ weather.sunrise }} | 🌇 Sunset: {{ weather.sunset }}</p>
+    <p class="mb-0">{{ weather.moon.emoji }} {{ weather.moon.name }}
+       {% if weather.uvi is not none %}&nbsp;|&nbsp; ☀️ UV <span class="uv-badge uv-{{ weather.uvi_desc|lower|replace(' ', '-') }}">{{ weather.uvi }} {{ weather.uvi_desc }}</span>{% endif %}</p>
+    <div class="hero-actions">
+        <button type="button" id="shareCardBtn" class="btn btn-sm btn-outline-primary">📸 Share as Image</button>
+    </div>
+</div>
+
+<!-- Teaser hub -> the other pages -->
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <a href="/hourly" class="teaser-card card p-3 h-100 d-block text-decoration-none">
+      <div class="teaser-emoji">⏰</div>
+      <h5 class="mb-1">Hourly Forecast</h5>
+      {% if hourly and hourly|length > 0 %}
+      <p class="mb-0 text-muted">Next up at {{ hourly[0].hour_label }}: <span data-temp-c="{{ hourly[0].temp }}">{{ hourly[0].temp }}°C</span>, {{ hourly[0].description }}</p>
+      {% else %}
+      <p class="mb-0 text-muted">See the next 48 hours →</p>
+      {% endif %}
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="/daily" class="teaser-card card p-3 h-100 d-block text-decoration-none">
+      <div class="teaser-emoji">📅</div>
+      <h5 class="mb-1">Daily / Weekly Outlook</h5>
+      {% if daily and daily|length > 0 %}
+      <p class="mb-0 text-muted">Today: <b data-temp-c="{{ daily[0].temp_max }}">{{ daily[0].temp_max }}°C</b> / <span data-temp-c="{{ daily[0].temp_min }}">{{ daily[0].temp_min }}°C</span>, {{ daily[0].description }}</p>
+      {% else %}
+      <p class="mb-0 text-muted">Plan your week →</p>
+      {% endif %}
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="/outfit" class="teaser-card card p-3 h-100 d-block text-decoration-none">
+      <div class="teaser-emoji">🧥</div>
+      <h5 class="mb-1">What to Wear</h5>
+      <span class="verdict-badge verdict-{{ weather.outfit.verdict_class }}">{{ weather.outfit.verdict }}</span>
+    </a>
+  </div>
+</div>
+
+<div class="masonry-grid mb-2">
+
+<!-- Air Quality -->
+<div class="card masonry-item p-4">
+    <h4 class="text-center">🌬️ Air Quality</h4>
+    <p>🌫️ AQI: <b>{{ weather.aqi }}</b> ({{ weather.aqi_desc }})</p>
+    <p>💨 PM2.5: <b>{{ weather.pm2_5 }} µg/m³</b></p>
+    <p>🌪️ PM10: <b>{{ weather.pm10 }} µg/m³</b></p>
+    <p>☀️ O₃: <b>{{ weather.o3 }} µg/m³</b></p>
+</div>
+
+<!-- Weather Details -->
+<div class="card masonry-item p-4">
+    <h4 class="text-center">Weather Details</h4>
+    <div class="wind-compass-wrap">
+        <div class="wind-compass">
+            <span class="wc-label wc-n">N</span>
+            <span class="wc-label wc-e">E</span>
+            <span class="wc-label wc-s">S</span>
+            <span class="wc-label wc-w">W</span>
+            <div class="wc-needle" style="transform: rotate({{ weather.wind_deg }}deg);"></div>
+        </div>
+        <small class="text-muted">Wind from {{ weather.wind_dir }} ({{ weather.wind_deg }}°)</small>
+    </div>
+    <ul class="details-list">
+        <li>🌡️ Feels Like: <b data-temp-c="{{ weather.feels_like }}" data-temp-decimals="1">{{ weather.feels_like }}°C</b></li>
+        <li>⬆️ Max Temp: <b data-temp-c="{{ weather.temp_max }}" data-temp-decimals="1">{{ weather.temp_max }}°C</b></li>
+        <li>⬇️ Min Temp: <b data-temp-c="{{ weather.temp_min }}" data-temp-decimals="1">{{ weather.temp_min }}°C</b></li>
+        <li>💧 Humidity: <b>{{ weather.humidity }}%</b></li>
+        <li>🌬️ Wind Speed: <b>{{ weather.wind_speed }} m/s</b></li>
+        <li>🔵 Pressure: <b>{{ weather.pressure }} hPa</b></li>
+        <li>👁️ Visibility: <b>{{ weather.visibility }} km ({{ weather.visibility_miles }} mi)</b></li>
+        {% if weather.dew_point is not none %}<li>💧 Dew Point: <b data-temp-c="{{ weather.dew_point }}" data-temp-decimals="1">{{ weather.dew_point }}°C</b></li>{% endif %}
+        <li>🌅 Sunrise in: <b>{{ weather.sunrise_countdown }}</b></li>
+        <li>🌇 Sunset in: <b>{{ weather.sunset_countdown }}</b></li>
+    </ul>
+</div>
+
+<!-- Temperature & Humidity Chart -->
+<div class="card masonry-item p-4">
+    <h4 class="text-center">Temperature &amp; Humidity Trend</h4>
+    <canvas id="tempChart"></canvas>
+</div>
+
+<!-- Map -->
+<div class="card masonry-item p-2">
+    <h4 class="text-center">City Location</h4>
+    <div id="map"></div>
+    {% if map_layers_enabled %}
+    <div class="map-layer-toggle">
+        <button type="button" class="btn btn-sm btn-outline-secondary map-layer-btn" data-layer="none">Base Map</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary map-layer-btn" data-layer="clouds_new">☁️ Clouds</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary map-layer-btn" data-layer="precipitation_new">🌧️ Precipitation</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary map-layer-btn" data-layer="temp_new">🌡️ Temperature</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary map-layer-btn" data-layer="wind_new">💨 Wind</button>
+    </div>
+    {% else %}
+    <p class="text-muted text-center mt-2 mb-0" style="font-size:0.8rem;">Map overlays (clouds/rain/temp/wind) need a live API key — add one to see these.</p>
+    {% endif %}
+</div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Chart.js — temperature & humidity trend across the forecast window
+const ctx = document.getElementById('tempChart')?.getContext('2d');
+if (ctx) {
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ forecast | map(attribute='time') | list | tojson | safe }},
+            datasets: [
+                {
+                    label: 'Temperature (°C)',
+                    data: {{ forecast | map(attribute='temp') | list | tojson | safe }},
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    yAxisID: 'y1', fill: true, tension: 0.4
+                },
+                {
+                    label: 'Humidity (%)',
+                    data: {{ forecast | map(attribute='humidity') | list | tojson | safe }},
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    yAxisID: 'y2', fill: true, tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: true }, tooltip: { mode: 'index', intersect: false } },
+            scales: {
+                x: { display: true, title: { display: true, text: 'Time' } },
+                y1: { display: true, title: { display: true, text: '°C' }, position: 'left' },
+                y2: { display: true, title: { display: true, text: '%' }, position: 'right' }
+            }
+        }
+    });
+}
+
+// Leaflet Map
+{% if weather %}
+var map = L.map('map').setView([{{ weather.lat }}, {{ weather.lon }}], 10);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+L.marker([{{ weather.lat }}, {{ weather.lon }}]).addTo(map).bindPopup('{{ weather.city }}').openPopup();
+
+{% if map_layers_enabled %}
+// Weather overlays -- served through our own /tiles/... proxy so the API
+// key never appears in the page or the browser's network tab.
+var currentOverlay = null;
+var overlayLayers = {};
+['clouds_new', 'precipitation_new', 'temp_new', 'wind_new'].forEach(function (layer) {
+    overlayLayers[layer] = L.tileLayer('/tiles/' + layer + '/{z}/{x}/{y}.png', { maxZoom: 19, opacity: 0.6 });
+});
+document.querySelectorAll('.map-layer-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        document.querySelectorAll('.map-layer-btn').forEach(b => b.classList.remove('btn-primary'));
+        if (currentOverlay) { map.removeLayer(currentOverlay); currentOverlay = null; }
+        var layer = btn.dataset.layer;
+        if (layer !== 'none' && overlayLayers[layer]) {
+            overlayLayers[layer].addTo(map);
+            currentOverlay = overlayLayers[layer];
+            btn.classList.add('btn-primary');
+        }
+    });
+});
+{% endif %}
+{% endif %}
+</script>
+{% endblock %}

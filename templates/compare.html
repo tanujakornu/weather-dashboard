@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}🌍 City Comparison — Weather Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-1">🌍 City Comparison</h2>
+<p class="text-muted mb-3">Your saved cities, side by side.</p>
+
+{% if cities %}
+<div class="row">
+  {% for city in cities %}
+  <div class="col-md-4 mb-3">
+    <div class="card shadow-sm h-100">
+      <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <strong>{{ city.city }}, {{ city.country }}</strong>
+        <img src="https://openweathermap.org/img/wn/{{ city.icon }}.png" alt="{{ city.description }}" style="width:36px;">
+      </div>
+      <div class="card-body">
+        <p>🌡️ Temp: <strong>{{ city.temperature }}°C</strong></p>
+        <p>🌡️ Feels Like: <strong>{{ city.feels_like }}°C</strong></p>
+        <p>💧 Humidity: <strong>{{ city.humidity }}%</strong></p>
+        <p>🌬️ Wind: <strong>{{ city.wind_speed }} m/s {{ city.wind_dir }}</strong></p>
+        <p>🔵 Pressure: <strong>{{ city.pressure }} hPa</strong></p>
+        <p>☁️ {{ city.description }}</p>
+        {% if city.aqi_desc %}
+        <p>🌬️ AQI: <strong>{{ city.aqi }} ({{ city.aqi_desc }})</strong></p>
+        {% endif %}
+        <p>🌅 Sunrise: {{ city.sunrise }} | 🌇 Sunset: {{ city.sunset }}</p>
+        {% if city.outfit %}
+        <hr>
+        <p class="mb-1"><span class="verdict-badge verdict-{{ city.outfit.verdict_class }}">{{ city.outfit.verdict }}</span></p>
+        <p class="mb-0 text-muted" style="font-size:0.85rem;">🧥 {{ city.outfit.clothing | join(', ') }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="card p-4 text-center">
+  <p class="text-muted mb-2">No saved cities to compare yet.</p>
+  <a href="/" class="btn btn-primary btn-sm">Search &amp; save a city on Home</a>
+</div>
+{% endif %}
+{% endblock %}

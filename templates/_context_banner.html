@@ -1,0 +1,20 @@
+{# Small "which city am I looking at" strip, shown at the top of every page
+   that isn't Home. Home is where the search box lives and sets the city
+   that every other page then reuses via the session. #}
+{% if weather %}
+<div class="card p-3 mb-4 d-flex flex-row align-items-center justify-content-between flex-wrap gap-2">
+  <div class="d-flex align-items-center gap-2">
+    <img src="https://openweathermap.org/img/wn/{{ weather.icon }}.png" alt="{{ weather.description }}" style="width:40px;">
+    <div>
+      <strong>{{ weather.city }}, {{ weather.country }}</strong>
+      <span class="text-muted"> — {{ weather.description }}, <span data-temp-c="{{ weather.temperature }}">{{ weather.temperature }}°C</span></span>
+    </div>
+  </div>
+  <a href="/" class="btn btn-sm btn-outline-primary">🔍 Search a different city</a>
+</div>
+{% else %}
+<div class="card p-4 mb-4 text-center">
+  <p class="mb-2">No location selected yet.</p>
+  <a href="/" class="btn btn-primary btn-sm">Go search a city on Home</a>
+</div>
+{% endif %}

@@ -1,0 +1,21 @@
+# Render.com Blueprint. If you connect this repo on Render and it finds
+# this file, it can set up the web service automatically ("New +" -> "Blueprint").
+# You still need to add OPENWEATHER_API_KEY yourself in the Render dashboard
+# (Environment tab) -- it's deliberately not written here since this file is
+# committed to your public GitHub repo.
+services:
+  - type: web
+    name: weather-dashboard
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: FLASK_DEBUG
+        value: "0"
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: OPENWEATHER_API_KEY
+        sync: false

@@ -1,0 +1,1760 @@
+{
+  "default_city": "London",
+  "cities": {
+    "London": {
+      "weather": {
+        "coord": {
+          "lat": 51.5085,
+          "lon": -0.1257
+        },
+        "weather": [
+          {
+            "main": "Clouds",
+            "description": "broken clouds",
+            "icon": "04d"
+          }
+        ],
+        "main": {
+          "temp": 14.2,
+          "feels_like": 13.6,
+          "temp_min": 12.8,
+          "temp_max": 15.9,
+          "humidity": 77,
+          "pressure": 1011
+        },
+        "visibility": 10000,
+        "wind": {
+          "speed": 4.6,
+          "deg": 230
+        },
+        "sys": {
+          "country": "GB",
+          "sunrise": 1782712800,
+          "sunset": 1782757800
+        },
+        "timezone": 0,
+        "name": "London",
+        "cod": 200
+      },
+      "air": {
+        "list": [
+          {
+            "main": {
+              "aqi": 2
+            },
+            "components": {
+              "pm2_5": 8.4,
+              "pm10": 12.1,
+              "o3": 48.6
+            }
+          }
+        ]
+      },
+      "onecall": {
+        "current": {
+          "dew_point": 10.3,
+          "uvi": 3.2
+        }
+      },
+      "forecast": {
+        "cod": "200",
+        "list": [
+          {
+            "dt": 1782747820,
+            "main": {
+              "temp": 14.0,
+              "humidity": 55
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782758620,
+            "main": {
+              "temp": 12.0,
+              "humidity": 58
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782769420,
+            "main": {
+              "temp": 11.0,
+              "humidity": 61
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782780220,
+            "main": {
+              "temp": 13.0,
+              "humidity": 64
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782791020,
+            "main": {
+              "temp": 16.0,
+              "humidity": 67
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782801820,
+            "main": {
+              "temp": 18.0,
+              "humidity": 70
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782812620,
+            "main": {
+              "temp": 17.0,
+              "humidity": 73
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782823420,
+            "main": {
+              "temp": 15.0,
+              "humidity": 76
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782834220,
+            "main": {
+              "temp": 14.3,
+              "humidity": 79
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782845020,
+            "main": {
+              "temp": 12.3,
+              "humidity": 82
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782855820,
+            "main": {
+              "temp": 11.3,
+              "humidity": 85
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782866620,
+            "main": {
+              "temp": 13.3,
+              "humidity": 88
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782877420,
+            "main": {
+              "temp": 16.3,
+              "humidity": 56
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782888220,
+            "main": {
+              "temp": 18.3,
+              "humidity": 59
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782899020,
+            "main": {
+              "temp": 17.3,
+              "humidity": 62
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782909820,
+            "main": {
+              "temp": 15.3,
+              "humidity": 65
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782920620,
+            "main": {
+              "temp": 14.6,
+              "humidity": 68
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782931420,
+            "main": {
+              "temp": 12.6,
+              "humidity": 71
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782942220,
+            "main": {
+              "temp": 11.6,
+              "humidity": 74
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782953020,
+            "main": {
+              "temp": 13.6,
+              "humidity": 77
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782963820,
+            "main": {
+              "temp": 16.6,
+              "humidity": 80
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782974620,
+            "main": {
+              "temp": 18.6,
+              "humidity": 83
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782985420,
+            "main": {
+              "temp": 17.6,
+              "humidity": 86
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1782996220,
+            "main": {
+              "temp": 15.6,
+              "humidity": 89
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783007020,
+            "main": {
+              "temp": 14.9,
+              "humidity": 57
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783017820,
+            "main": {
+              "temp": 12.9,
+              "humidity": 60
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783028620,
+            "main": {
+              "temp": 11.9,
+              "humidity": 63
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783039420,
+            "main": {
+              "temp": 13.9,
+              "humidity": 66
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783050220,
+            "main": {
+              "temp": 16.9,
+              "humidity": 69
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783061020,
+            "main": {
+              "temp": 18.9,
+              "humidity": 72
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783071820,
+            "main": {
+              "temp": 17.9,
+              "humidity": 75
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783082620,
+            "main": {
+              "temp": 15.9,
+              "humidity": 78
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783093420,
+            "main": {
+              "temp": 15.2,
+              "humidity": 81
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783104220,
+            "main": {
+              "temp": 13.2,
+              "humidity": 84
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783115020,
+            "main": {
+              "temp": 12.2,
+              "humidity": 87
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783125820,
+            "main": {
+              "temp": 14.2,
+              "humidity": 55
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783136620,
+            "main": {
+              "temp": 17.2,
+              "humidity": 58
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783147420,
+            "main": {
+              "temp": 19.2,
+              "humidity": 61
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783158220,
+            "main": {
+              "temp": 18.2,
+              "humidity": 64
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          },
+          {
+            "dt": 1783169020,
+            "main": {
+              "temp": 16.2,
+              "humidity": 67
+            },
+            "weather": [
+              {
+                "description": "Broken Clouds",
+                "icon": "04d"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "Tokyo": {
+      "weather": {
+        "coord": {
+          "lat": 35.6895,
+          "lon": 139.6917
+        },
+        "weather": [
+          {
+            "main": "Clear",
+            "description": "clear sky",
+            "icon": "01d"
+          }
+        ],
+        "main": {
+          "temp": 22.7,
+          "feels_like": 23.1,
+          "temp_min": 21.0,
+          "temp_max": 24.4,
+          "humidity": 64,
+          "pressure": 1009
+        },
+        "visibility": 10000,
+        "wind": {
+          "speed": 3.1,
+          "deg": 150
+        },
+        "sys": {
+          "country": "JP",
+          "sunrise": 1782680400,
+          "sunset": 1782725400
+        },
+        "timezone": 32400,
+        "name": "Tokyo",
+        "cod": 200
+      },
+      "air": {
+        "list": [
+          {
+            "main": {
+              "aqi": 1
+            },
+            "components": {
+              "pm2_5": 5.2,
+              "pm10": 7.8,
+              "o3": 33.4
+            }
+          }
+        ]
+      },
+      "onecall": {
+        "current": {
+          "dew_point": 15.6,
+          "uvi": 6.8
+        },
+        "alerts": [
+          {
+            "sender_name": "Japan Meteorological Agency",
+            "event": "Heavy Rain Advisory",
+            "start": 1782680400,
+            "end": 1782725400,
+            "description": "Heavy rain is expected through the afternoon. Localized flooding is possible in low-lying areas. Avoid unnecessary travel near rivers and drainage channels.",
+            "tags": [
+              "Rain"
+            ]
+          }
+        ]
+      },
+      "forecast": {
+        "cod": "200",
+        "list": [
+          {
+            "dt": 1782747820,
+            "main": {
+              "temp": 23.0,
+              "humidity": 55
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782758620,
+            "main": {
+              "temp": 21.0,
+              "humidity": 58
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782769420,
+            "main": {
+              "temp": 20.0,
+              "humidity": 61
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782780220,
+            "main": {
+              "temp": 22.0,
+              "humidity": 64
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782791020,
+            "main": {
+              "temp": 25.0,
+              "humidity": 67
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782801820,
+            "main": {
+              "temp": 27.0,
+              "humidity": 70
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782812620,
+            "main": {
+              "temp": 26.0,
+              "humidity": 73
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782823420,
+            "main": {
+              "temp": 24.0,
+              "humidity": 76
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782834220,
+            "main": {
+              "temp": 23.3,
+              "humidity": 79
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782845020,
+            "main": {
+              "temp": 21.3,
+              "humidity": 82
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782855820,
+            "main": {
+              "temp": 20.3,
+              "humidity": 85
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782866620,
+            "main": {
+              "temp": 22.3,
+              "humidity": 88
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782877420,
+            "main": {
+              "temp": 25.3,
+              "humidity": 56
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782888220,
+            "main": {
+              "temp": 27.3,
+              "humidity": 59
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782899020,
+            "main": {
+              "temp": 26.3,
+              "humidity": 62
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782909820,
+            "main": {
+              "temp": 24.3,
+              "humidity": 65
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782920620,
+            "main": {
+              "temp": 23.6,
+              "humidity": 68
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782931420,
+            "main": {
+              "temp": 21.6,
+              "humidity": 71
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782942220,
+            "main": {
+              "temp": 20.6,
+              "humidity": 74
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782953020,
+            "main": {
+              "temp": 22.6,
+              "humidity": 77
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782963820,
+            "main": {
+              "temp": 25.6,
+              "humidity": 80
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782974620,
+            "main": {
+              "temp": 27.6,
+              "humidity": 83
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782985420,
+            "main": {
+              "temp": 26.6,
+              "humidity": 86
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1782996220,
+            "main": {
+              "temp": 24.6,
+              "humidity": 89
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783007020,
+            "main": {
+              "temp": 23.9,
+              "humidity": 57
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783017820,
+            "main": {
+              "temp": 21.9,
+              "humidity": 60
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783028620,
+            "main": {
+              "temp": 20.9,
+              "humidity": 63
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783039420,
+            "main": {
+              "temp": 22.9,
+              "humidity": 66
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783050220,
+            "main": {
+              "temp": 25.9,
+              "humidity": 69
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783061020,
+            "main": {
+              "temp": 27.9,
+              "humidity": 72
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783071820,
+            "main": {
+              "temp": 26.9,
+              "humidity": 75
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783082620,
+            "main": {
+              "temp": 24.9,
+              "humidity": 78
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783093420,
+            "main": {
+              "temp": 24.2,
+              "humidity": 81
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783104220,
+            "main": {
+              "temp": 22.2,
+              "humidity": 84
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783115020,
+            "main": {
+              "temp": 21.2,
+              "humidity": 87
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783125820,
+            "main": {
+              "temp": 23.2,
+              "humidity": 55
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783136620,
+            "main": {
+              "temp": 26.2,
+              "humidity": 58
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783147420,
+            "main": {
+              "temp": 28.2,
+              "humidity": 61
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783158220,
+            "main": {
+              "temp": 27.2,
+              "humidity": 64
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          },
+          {
+            "dt": 1783169020,
+            "main": {
+              "temp": 25.2,
+              "humidity": 67
+            },
+            "weather": [
+              {
+                "description": "Clear Sky",
+                "icon": "01d"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "New York": {
+      "weather": {
+        "coord": {
+          "lat": 40.7143,
+          "lon": -74.006
+        },
+        "weather": [
+          {
+            "main": "Rain",
+            "description": "light rain",
+            "icon": "10d"
+          }
+        ],
+        "main": {
+          "temp": 19.4,
+          "feels_like": 19.0,
+          "temp_min": 17.2,
+          "temp_max": 21.8,
+          "humidity": 58,
+          "pressure": 1015
+        },
+        "visibility": 10000,
+        "wind": {
+          "speed": 5.7,
+          "deg": 300
+        },
+        "sys": {
+          "country": "US",
+          "sunrise": 1782727200,
+          "sunset": 1782772200
+        },
+        "timezone": -14400,
+        "name": "New York",
+        "cod": 200
+      },
+      "air": {
+        "list": [
+          {
+            "main": {
+              "aqi": 2
+            },
+            "components": {
+              "pm2_5": 9.9,
+              "pm10": 14.3,
+              "o3": 41.0
+            }
+          }
+        ]
+      },
+      "onecall": {
+        "current": {
+          "dew_point": 11.2,
+          "uvi": 5.1
+        }
+      },
+      "forecast": {
+        "cod": "200",
+        "list": [
+          {
+            "dt": 1782747820,
+            "main": {
+              "temp": 19.0,
+              "humidity": 55
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782758620,
+            "main": {
+              "temp": 17.0,
+              "humidity": 58
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782769420,
+            "main": {
+              "temp": 16.0,
+              "humidity": 61
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782780220,
+            "main": {
+              "temp": 18.0,
+              "humidity": 64
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782791020,
+            "main": {
+              "temp": 21.0,
+              "humidity": 67
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782801820,
+            "main": {
+              "temp": 23.0,
+              "humidity": 70
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782812620,
+            "main": {
+              "temp": 22.0,
+              "humidity": 73
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782823420,
+            "main": {
+              "temp": 20.0,
+              "humidity": 76
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782834220,
+            "main": {
+              "temp": 19.3,
+              "humidity": 79
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782845020,
+            "main": {
+              "temp": 17.3,
+              "humidity": 82
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782855820,
+            "main": {
+              "temp": 16.3,
+              "humidity": 85
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782866620,
+            "main": {
+              "temp": 18.3,
+              "humidity": 88
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782877420,
+            "main": {
+              "temp": 21.3,
+              "humidity": 56
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782888220,
+            "main": {
+              "temp": 23.3,
+              "humidity": 59
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782899020,
+            "main": {
+              "temp": 22.3,
+              "humidity": 62
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782909820,
+            "main": {
+              "temp": 20.3,
+              "humidity": 65
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782920620,
+            "main": {
+              "temp": 19.6,
+              "humidity": 68
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782931420,
+            "main": {
+              "temp": 17.6,
+              "humidity": 71
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782942220,
+            "main": {
+              "temp": 16.6,
+              "humidity": 74
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782953020,
+            "main": {
+              "temp": 18.6,
+              "humidity": 77
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782963820,
+            "main": {
+              "temp": 21.6,
+              "humidity": 80
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782974620,
+            "main": {
+              "temp": 23.6,
+              "humidity": 83
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782985420,
+            "main": {
+              "temp": 22.6,
+              "humidity": 86
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1782996220,
+            "main": {
+              "temp": 20.6,
+              "humidity": 89
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783007020,
+            "main": {
+              "temp": 19.9,
+              "humidity": 57
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783017820,
+            "main": {
+              "temp": 17.9,
+              "humidity": 60
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783028620,
+            "main": {
+              "temp": 16.9,
+              "humidity": 63
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783039420,
+            "main": {
+              "temp": 18.9,
+              "humidity": 66
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783050220,
+            "main": {
+              "temp": 21.9,
+              "humidity": 69
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783061020,
+            "main": {
+              "temp": 23.9,
+              "humidity": 72
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783071820,
+            "main": {
+              "temp": 22.9,
+              "humidity": 75
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783082620,
+            "main": {
+              "temp": 20.9,
+              "humidity": 78
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783093420,
+            "main": {
+              "temp": 20.2,
+              "humidity": 81
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783104220,
+            "main": {
+              "temp": 18.2,
+              "humidity": 84
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783115020,
+            "main": {
+              "temp": 17.2,
+              "humidity": 87
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783125820,
+            "main": {
+              "temp": 19.2,
+              "humidity": 55
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783136620,
+            "main": {
+              "temp": 22.2,
+              "humidity": 58
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783147420,
+            "main": {
+              "temp": 24.2,
+              "humidity": 61
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783158220,
+            "main": {
+              "temp": 23.2,
+              "humidity": 64
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          },
+          {
+            "dt": 1783169020,
+            "main": {
+              "temp": 21.2,
+              "humidity": 67
+            },
+            "weather": [
+              {
+                "description": "Light Rain",
+                "icon": "10d"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

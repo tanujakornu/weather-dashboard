@@ -1,0 +1,572 @@
+/* ==========================================================================
+   Weather Dashboard — theme, layout & animated weather scenes
+   ========================================================================== */
+
+:root {
+    --sky-top: #4a90d9;
+    --sky-bottom: #a9d6f5;
+    --text-on-sky: #0d1b2a;
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --card-radius: 18px;
+    --accent: #2f6fed;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    color: var(--text-on-sky);
+    background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 100%);
+    transition: background 1s ease, color 1s ease;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+.app-shell {
+    position: relative;
+    z-index: 2;
+}
+
+/* ---------- Weather condition palettes ---------- */
+body[data-weather="clear"][data-daytime="day"]      { --sky-top:#3d8bea; --sky-bottom:#a9e0ff; --text-on-sky:#0d1b2a; }
+body[data-weather="clear"][data-daytime="night"]     { --sky-top:#050b1f; --sky-bottom:#1b2a55; --text-on-sky:#f1f4ff; }
+body[data-weather="clouds"][data-daytime="day"]      { --sky-top:#7f8fa6; --sky-bottom:#c9d3dd; --text-on-sky:#1a1a1a; }
+body[data-weather="clouds"][data-daytime="night"]    { --sky-top:#151d2b; --sky-bottom:#3a4457; --text-on-sky:#f1f4ff; }
+body[data-weather="rain"][data-daytime="day"],
+body[data-weather="drizzle"][data-daytime="day"]     { --sky-top:#3c5570; --sky-bottom:#7c93a8; --text-on-sky:#0d1b2a; }
+body[data-weather="rain"][data-daytime="night"],
+body[data-weather="drizzle"][data-daytime="night"]   { --sky-top:#0a0f1a; --sky-bottom:#233043; --text-on-sky:#f1f4ff; }
+body[data-weather="thunderstorm"]                    { --sky-top:#12141c; --sky-bottom:#3a3550; --text-on-sky:#f1f4ff; }
+body[data-weather="snow"][data-daytime="day"]        { --sky-top:#aebdd4; --sky-bottom:#eef3fa; --text-on-sky:#0d1b2a; }
+body[data-weather="snow"][data-daytime="night"]      { --sky-top:#1c2536; --sky-bottom:#48566e; --text-on-sky:#f1f4ff; }
+body[data-weather="mist"][data-daytime="day"],
+body[data-weather="fog"][data-daytime="day"],
+body[data-weather="haze"][data-daytime="day"]        { --sky-top:#9aa5ab; --sky-bottom:#d7dee0; --text-on-sky:#0d1b2a; }
+body[data-weather="mist"][data-daytime="night"],
+body[data-weather="fog"][data-daytime="night"],
+body[data-weather="haze"][data-daytime="night"]      { --sky-top:#20242b; --sky-bottom:#454e57; --text-on-sky:#f1f4ff; }
+
+/* NOTE: cards always sit on a near-white surface (see --card-bg), so their
+   text stays a fixed dark colour regardless of the day/night sky theme --
+   see ".card, .hourly-card, ..." below. Only page-level text (headings,
+   the glass search panel, footer) follows --text-on-sky. */
+
+/* ---------- Animated weather scene layer ---------- */
+#weather-scene {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Sun */
+.wx-sun {
+    position: absolute;
+    top: 8%;
+    right: 10%;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff6cf 0%, #ffd45e 55%, rgba(255,212,94,0) 75%);
+    box-shadow: 0 0 60px 20px rgba(255, 214, 100, 0.55);
+    animation: sunPulse 6s ease-in-out infinite;
+}
+@keyframes sunPulse {
+    0%, 100% { transform: scale(1); opacity: 0.95; }
+    50% { transform: scale(1.08); opacity: 1; }
+}
+
+/* Moon */
+.wx-moon {
+    position: absolute;
+    top: 8%;
+    right: 12%;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #f4f1e8;
+    /* --moon-shadow-x is set from JS based on today's real moon phase; the
+       fallback (-14px) is just a generic crescent if that never runs. */
+    box-shadow: inset var(--moon-shadow-x, -14px) -6px 0 0 #0a0f1a, 0 0 40px 8px rgba(244,241,232,0.35);
+    animation: sunPulse 8s ease-in-out infinite;
+}
+
+/* Stars */
+.wx-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 1; }
+}
+
+/* Clouds */
+.wx-cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.85);
+    border-radius: 50px;
+    filter: blur(0.5px);
+    animation-name: cloudDrift;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+.wx-cloud::before, .wx-cloud::after {
+    content: "";
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+}
+body[data-daytime="night"] .wx-cloud { background: rgba(180,190,210,0.35); }
+@keyframes cloudDrift {
+    from { transform: translateX(-15vw); }
+    to   { transform: translateX(115vw); }
+}
+
+/* Rain */
+.wx-raindrop {
+    position: absolute;
+    top: -5%;
+    width: 2px;
+    height: 18px;
+    background: linear-gradient(to bottom, rgba(180,210,255,0), rgba(180,210,255,0.85));
+    animation-name: rainfall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@keyframes rainfall {
+    from { transform: translateY(-10vh); opacity: 0.9; }
+    to   { transform: translateY(110vh); opacity: 0.6; }
+}
+
+/* Snow */
+.wx-snowflake {
+    position: absolute;
+    top: -5%;
+    color: #ffffff;
+    text-shadow: 0 0 4px rgba(255,255,255,0.8);
+    animation-name: snowfall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@keyframes snowfall {
+    from { transform: translateY(-10vh) translateX(0) rotate(0deg); }
+    to   { transform: translateY(110vh) translateX(20px) rotate(360deg); }
+}
+
+/* Lightning flash (thunderstorm) */
+.wx-flash {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    opacity: 0;
+    animation: lightningFlash 7s ease-in-out infinite;
+}
+@keyframes lightningFlash {
+    0%, 92%, 100% { opacity: 0; }
+    93% { opacity: 0.55; }
+    94% { opacity: 0.05; }
+    95% { opacity: 0.4; }
+    96% { opacity: 0; }
+}
+
+/* Fog band */
+.wx-fogband {
+    position: absolute;
+    left: -20%;
+    width: 140%;
+    height: 60px;
+    background: rgba(255,255,255,0.35);
+    filter: blur(6px);
+    border-radius: 50%;
+    animation-name: fogDrift;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+@keyframes fogDrift {
+    from { transform: translateX(-5%); }
+    to   { transform: translateX(5%); }
+}
+
+/* ==========================================================================
+   Cards & layout
+   ========================================================================== */
+
+/* Cards are always a near-white surface, in every theme -- so their text is
+   a fixed dark colour too, rather than inheriting the (theme-dependent)
+   body text colour. This keeps card content readable at night, when the
+   page-level text is switched to light-on-dark. */
+.card,
+.hourly-card,
+.forecast-card,
+.daily-card {
+    display: block;
+    border: none;
+    border-radius: var(--card-radius);
+    background-color: var(--card-bg);
+    color: #1c2430;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.6s;
+}
+.card :is(h1, h2, h3, h4, h5, h6, p, li, span, b, strong):not([class*="verdict-"]):not(.tag-pill) {
+    color: inherit;
+}
+
+.brand-title {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.glass-panel {
+    background: rgba(255,255,255,0.18);
+    border-radius: var(--card-radius);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.35);
+}
+
+/* ---------- Site navigation ---------- */
+.site-nav {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.brand-link {
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: 0.3px;
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.nav-toggle-btn {
+    display: none;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: inherit;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0.4rem 0.7rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.nav-links a {
+    color: inherit;
+    text-decoration: none;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    margin-left: 4px;
+    font-size: 0.92rem;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+.nav-links a:hover {
+    background: rgba(255,255,255,0.25);
+}
+.nav-links a.active {
+    background: rgba(255,255,255,0.35);
+    font-weight: 600;
+}
+
+/* Phone-sized screens: collapse the links behind a hamburger button */
+@media (max-width: 700px) {
+    .nav-toggle-btn { display: inline-block; }
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        margin-top: 0.6rem;
+        gap: 4px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a {
+        margin-left: 0;
+        padding: 0.65rem 0.9rem;
+        border-radius: 12px;
+    }
+}
+
+/* Home page teaser cards linking to the other pages -- styled defensively
+   (padding/box-sizing set here directly) so they still look right even if
+   Bootstrap's CDN is unreachable. */
+.teaser-card {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1rem;
+    color: #1c2430;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.teaser-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.16);
+    color: #1c2430;
+}
+.teaser-emoji {
+    font-size: 1.8rem;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+}
+
+/* Hero current-weather card */
+.hero-card {
+    border-radius: 24px;
+    padding: 2rem;
+    text-align: center;
+}
+.hero-icon {
+    width: 130px;
+    height: 130px;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.2));
+}
+.hero-temp {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+}
+.hero-feels {
+    opacity: 0.85;
+}
+
+/* Outfit / "what to wear" card */
+.outfit-card {
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+}
+.outfit-icon-row {
+    font-size: 2.6rem;
+    line-height: 1;
+}
+.verdict-badge {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #fff;
+}
+.verdict-great   { background: #2e7d32; }
+.verdict-good    { background: #558b2f; }
+.verdict-fair    { background: #f9a825; color: #26210a; }
+.verdict-caution { background: #ef6c00; }
+.verdict-avoid   { background: #c62828; }
+
+.tag-pill {
+    display: inline-block;
+    background: rgba(47, 111, 237, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(47, 111, 237, 0.25);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    margin: 0.2rem;
+    font-size: 0.85rem;
+}
+
+.tip-list li {
+    list-style: none;
+    padding: 0.25rem 0;
+}
+.tip-list li::before {
+    content: "→ ";
+    opacity: 0.6;
+}
+
+/* Hourly strip */
+.hourly-grid, .forecast-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 15px 4px;
+    scroll-behavior: smooth;
+}
+.hourly-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align: center;
+    min-width: 92px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    flex: 0 0 auto;
+}
+.hourly-card img { width: 44px; }
+.hourly-card small { opacity: 0.7; }
+
+.forecast-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    min-width: 130px;
+    transition: transform 0.3s;
+    flex: 0 0 auto;
+}
+.forecast-card:hover { transform: translateY(-5px); }
+.forecast-card img { width: 50px; }
+
+/* Daily / weekly outlook cards */
+.daily-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+}
+.daily-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    transition: transform 0.25s;
+}
+.daily-card:hover { transform: translateY(-4px); }
+.daily-card img { width: 48px; }
+.daily-card .daily-label { font-weight: 600; }
+.daily-card .daily-range { font-size: 0.95rem; }
+.daily-card .daily-outfit-emoji { font-size: 1.4rem; margin-top: 4px; }
+
+.details-list li {
+    list-style: none;
+    padding: 6px 0;
+}
+
+#map {
+    height: 250px;
+    border-radius: 12px;
+}
+
+.masonry-grid {
+    column-count: 3;
+    column-gap: 20px;
+}
+.masonry-item {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 992px) {
+    .masonry-grid { column-count: 2; }
+}
+@media (max-width: 576px) {
+    .masonry-grid { column-count: 1; }
+    .hero-temp { font-size: 3rem; }
+}
+
+footer a:hover { text-decoration: underline; }
+
+/* ---------- Severe weather alert banner ---------- */
+.alert-banner {
+    background: #fdece9;
+    border: 1px solid #e57373;
+    border-left: 6px solid #c62828;
+    border-radius: 12px;
+    padding: 0.9rem 1.1rem;
+    color: #5c1a15;
+}
+.alert-banner-item + .alert-banner-item {
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid rgba(198,40,40,0.25);
+}
+.alert-banner-title { font-weight: 700; }
+.alert-banner-sender { font-weight: 400; opacity: 0.8; font-size: 0.85rem; }
+.alert-banner-time { font-size: 0.82rem; opacity: 0.85; margin: 0.15rem 0; }
+.alert-banner-desc { font-size: 0.9rem; margin-top: 0.2rem; }
+
+/* ---------- Wind compass ---------- */
+.wind-compass {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    border: 2px solid rgba(28,36,48,0.15);
+    position: relative;
+    margin: 0.4rem auto;
+    flex-shrink: 0;
+}
+.wind-compass .wc-label {
+    position: absolute;
+    font-size: 0.62rem;
+    opacity: 0.55;
+    font-weight: 600;
+}
+.wind-compass .wc-n { top: 2px; left: 50%; transform: translateX(-50%); }
+.wind-compass .wc-e { right: 4px; top: 50%; transform: translateY(-50%); }
+.wind-compass .wc-s { bottom: 2px; left: 50%; transform: translateX(-50%); }
+.wind-compass .wc-w { left: 4px; top: 50%; transform: translateY(-50%); }
+.wind-compass .wc-needle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 60%;
+    background: linear-gradient(to bottom, #c62828 0%, #c62828 48%, #9aa5ab 52%, #9aa5ab 100%);
+    transform-origin: 50% 50%;
+    margin-left: -1.5px;
+    margin-top: -30%;
+    border-radius: 2px;
+}
+.wind-compass-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+
+/* ---------- UV index badge ---------- */
+.uv-badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #fff;
+}
+.uv-low { background: #558b2f; }
+.uv-moderate { background: #f9a825; color: #26210a; }
+.uv-high { background: #ef6c00; }
+.uv-very-high { background: #d84315; }
+.uv-extreme { background: #6a1b9a; }
+
+/* ---------- Share-card button ---------- */
+.hero-actions { margin-top: 0.9rem; }
+
+/* ---------- Map layer toggle ---------- */
+.map-layer-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 8px;
+}
+.map-layer-toggle button {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.65rem;
+}
+
+/* ---------- Small phone polish ---------- */
+@media (max-width: 480px) {
+    .glass-panel .btn, .glass-panel input { font-size: 0.92rem; }
+    .hero-icon { width: 100px; height: 100px; }
+    .verdict-badge { font-size: 0.85rem; }
+}
+
+/* Spinner */
+#loadingSpinner { display: none; }
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .wx-sun, .wx-moon, .wx-star, .wx-cloud, .wx-raindrop, .wx-snowflake, .wx-flash, .wx-fogband {
+        animation: none !important;
+    }
+}

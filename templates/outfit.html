@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}🧥 What to Wear — Weather Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">🧥 What to Wear</h2>
+<p class="text-muted mb-3">Clothing, accessories and an outing verdict, worked out from temperature, sky condition, wind, rain chance and air quality.</p>
+
+{% include "_context_banner.html" %}
+
+{% if weather %}
+<div class="card outfit-card mb-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <h3 class="mb-2 mb-md-0">Right Now — {{ weather.outfit.headline }}</h3>
+        <span class="verdict-badge verdict-{{ weather.outfit.verdict_class }}">{{ weather.outfit.verdict }}</span>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h6 class="text-uppercase text-muted" style="font-size:0.8rem;">Clothing</h6>
+            {% for item in weather.outfit.clothing %}<span class="tag-pill">👕 {{ item }}</span>{% endfor %}
+        </div>
+        <div class="col-md-6">
+            <h6 class="text-uppercase text-muted mt-3 mt-md-0" style="font-size:0.8rem;">Accessories</h6>
+            {% if weather.outfit.accessories %}
+                {% for item in weather.outfit.accessories %}<span class="tag-pill">🎒 {{ item }}</span>{% endfor %}
+            {% else %}
+                <span class="text-muted">None needed today.</span>
+            {% endif %}
+        </div>
+    </div>
+    {% if weather.outfit.tips %}
+    <h6 class="text-uppercase text-muted mt-4" style="font-size:0.8rem;">Good to Know</h6>
+    <ul class="tip-list mb-0">
+        {% for tip in weather.outfit.tips %}<li>{{ tip }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+{% if daily %}
+<h4 class="mb-3">Outfit Outlook for the Week</h4>
+<div class="daily-grid">
+    {% for d in daily %}
+    <div class="daily-card">
+        <div class="daily-label">{{ d.label }}</div>
+        <div class="text-muted" style="font-size:0.8rem;">{{ d.date }}</div>
+        <img src="https://openweathermap.org/img/wn/{{ d.icon }}@2x.png" alt="{{ d.description }}">
+        <div class="daily-range">
+            <b data-temp-c="{{ d.temp_max }}">{{ d.temp_max }}°C</b> / <span data-temp-c="{{ d.temp_min }}">{{ d.temp_min }}°C</span>
+        </div>
+        <div class="mt-2"><span class="verdict-badge verdict-{{ d.outfit.verdict_class }}" style="font-size:0.75rem; padding:0.3rem 0.6rem;">{{ d.outfit.verdict }}</span></div>
+        <div class="text-muted mt-2" style="font-size:0.78rem;">
+            {% for item in d.outfit.clothing[:2] %}{{ item }}{{ ", " if not loop.last }}{% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endif %}
+{% endblock %}

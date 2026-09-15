@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}📅 Daily Outlook — Weather Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">📅 Daily / Weekly Outlook</h2>
+<p class="text-muted mb-3">Grouped from the 3-hour forecast — up to {{ daily|length if daily else 0 }} days, the maximum the free forecast API (and the offline demo data) provides.</p>
+
+{% include "_context_banner.html" %}
+
+{% if daily %}
+<div class="daily-grid">
+    {% for d in daily %}
+    <div class="daily-card text-start text-md-center">
+        <div class="daily-label">{{ d.label }}</div>
+        <div class="text-muted" style="font-size:0.8rem;">{{ d.date }}</div>
+        <img src="https://openweathermap.org/img/wn/{{ d.icon }}@2x.png" alt="{{ d.description }}">
+        <div class="daily-range">
+            <b data-temp-c="{{ d.temp_max }}">{{ d.temp_max }}°C</b> / <span data-temp-c="{{ d.temp_min }}">{{ d.temp_min }}°C</span>
+        </div>
+        <div class="text-muted mb-2" style="font-size:0.82rem;">{{ d.description }}</div>
+        {% if d.humidity is not none %}<div style="font-size:0.8rem;">💧 {{ d.humidity }}%</div>{% endif %}
+        {% if d['pop'] is not none %}<div style="font-size:0.8rem;">☔ {{ d['pop'] }}%</div>{% endif %}
+        <div class="mt-2">
+            <span class="verdict-badge verdict-{{ d.outfit.verdict_class }}" style="font-size:0.75rem; padding:0.3rem 0.6rem;">{{ d.outfit.verdict }}</span>
+        </div>
+        <div class="text-muted mt-1" style="font-size:0.75rem;">{{ d.outfit.headline }}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}
