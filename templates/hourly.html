@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 {% block title %}⏰ Hourly Forecast — Weather Dashboard{% endblock %}
 
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
 {% block content %}
 <h2 class="mb-3">⏰ Hourly Forecast</h2>
 <p class="text-muted mb-3">3-hour steps covering the next {{ (hourly|length * 3) if hourly else 0 }} hours.</p>
 
 {% include "_context_banner.html" %}
+
+{% if hourly %}
+<div class="card p-3 mb-4">
+    <h4 class="text-center mb-2">☔ Rain Chance Timeline</h4>
+    <canvas id="rainChart" height="90"></canvas>
+</div>
+{% endif %}
 
 {% if hourly %}
 <div class="daily-grid">
@@ -25,4 +36,34 @@
     {% endfor %}
 </div>
 {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+const rainCtx = document.getElementById('rainChart')?.getContext('2d');
+if (rainCtx) {
+    new Chart(rainCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ hourly | map(attribute='hour_label') | list | tojson | safe }},
+            datasets: [{
+                label: 'Rain chance (%)',
+                data: {{ hourly | map(attribute='pop') | list | tojson | safe }},
+                backgroundColor: (ctx) => {
+                    const v = ctx.raw || 0;
+                    return v >= 60 ? 'rgba(41, 98, 255, 0.85)' : v >= 30 ? 'rgba(41, 128, 255, 0.55)' : 'rgba(41, 128, 255, 0.25)';
+                },
+                borderRadius: 6,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => (c.raw ?? 0) + '% chance of rain' } } },
+            scales: {
+                y: { beginAtZero: true, max: 100, ticks: { callback: (v) => v + '%' } }
+            }
+        }
+    });
+}
+</script>
 {% endblock %}

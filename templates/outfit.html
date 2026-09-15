@@ -13,6 +13,13 @@
         <h3 class="mb-2 mb-md-0">Right Now — {{ weather.outfit.headline }}</h3>
         <span class="verdict-badge verdict-{{ weather.outfit.verdict_class }}">{{ weather.outfit.verdict }}</span>
     </div>
+    <div class="outfit-basis-row mb-3">
+        <span class="stat-chip">🌡️ Feels like <b data-temp-c="{{ weather.outfit.based_on.feels_like }}">{{ weather.outfit.based_on.feels_like }}°C</b></span>
+        <span class="stat-chip">💨 Wind <b>{{ weather.outfit.based_on.wind_speed }} m/s</b></span>
+        <span class="stat-chip">☔ Rain chance <b>{{ weather.outfit.based_on.pop if weather.outfit.based_on.pop is not none else 0 }}%</b></span>
+        {% if weather.outfit.based_on.aqi %}<span class="stat-chip">🌬️ AQI <b>{{ weather.outfit.based_on.aqi }} ({{ weather.aqi_desc }})</b></span>{% endif %}
+    </div>
+    <p class="text-muted small mb-3" style="font-size:0.8rem;">This verdict is worked out live from the numbers above — not just today's sky icon.</p>
     <div class="row">
         <div class="col-md-6">
             <h6 class="text-uppercase text-muted" style="font-size:0.8rem;">Clothing</h6>
@@ -49,6 +56,9 @@
         <div class="mt-2"><span class="verdict-badge verdict-{{ d.outfit.verdict_class }}" style="font-size:0.75rem; padding:0.3rem 0.6rem;">{{ d.outfit.verdict }}</span></div>
         <div class="text-muted mt-2" style="font-size:0.78rem;">
             {% for item in d.outfit.clothing[:2] %}{{ item }}{{ ", " if not loop.last }}{% endfor %}
+        </div>
+        <div class="daily-outfit-basis" style="font-size:0.72rem;">
+            ☔ {{ d.pop if d.pop is not none else 0 }}% &nbsp;·&nbsp; 💨 {{ d.wind_speed if d.wind_speed is not none else '–' }} m/s
         </div>
     </div>
     {% endfor %}

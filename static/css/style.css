@@ -561,6 +561,81 @@ footer a:hover { text-decoration: underline; }
     .verdict-badge { font-size: 0.85rem; }
 }
 
+/* ---------- "What to Wear" — verdict basis chips ---------- */
+.outfit-basis-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.stat-chip {
+    display: inline-block;
+    background: rgba(28, 36, 48, 0.06);
+    border: 1px solid rgba(28, 36, 48, 0.1);
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.85rem;
+}
+.daily-outfit-basis {
+    opacity: 0.7;
+    margin-top: 2px;
+}
+
+/* ---------- Favorites board (saved cities at a glance) ---------- */
+.favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+}
+.favorite-card {
+    position: relative;
+}
+.favorite-card-form { margin: 0; }
+.favorite-card-btn {
+    width: 100%;
+    border: none;
+    background: rgba(47, 111, 237, 0.06);
+    border: 1px solid rgba(47, 111, 237, 0.18);
+    border-radius: 14px;
+    padding: 10px 8px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    color: #1c2430;
+}
+.favorite-card-btn:hover {
+    transform: translateY(-3px);
+    background: rgba(47, 111, 237, 0.12);
+}
+.favorite-card-btn img { width: 36px; height: 36px; }
+.favorite-city {
+    font-weight: 600;
+    font-size: 0.88rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.favorite-temp { font-size: 1.1rem; font-weight: 700; }
+.favorite-desc { font-size: 0.72rem; opacity: 0.75; }
+.favorite-remove-form {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    z-index: 1;
+    margin: 0;
+}
+.favorite-remove {
+    width: 20px;
+    height: 20px;
+    line-height: 18px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    background: #c62828;
+    color: #fff;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
 /* Spinner */
 #loadingSpinner { display: none; }
 

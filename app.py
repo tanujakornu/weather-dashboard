@@ -269,7 +269,51 @@ def build_outfit_advice(temp_c, feels_like_c=None, weather_main="", description=
         "tips": tips,
         "verdict": verdict_text,
         "verdict_class": verdict_class,
+        # Echoes back the actual numbers this verdict was computed from, so the
+        # UI can show its work ("based on 14°C feels-like, 40% rain chance...")
+        # instead of the advice just appearing out of nowhere.
+        "based_on": {
+            "feels_like": round(t, 1),
+            "wind_speed": round(wind_speed, 1) if wind_speed else 0,
+            "pop": pop,
+            "aqi": aqi,
+        },
     }
+
+
+def _near_term_pop(forecast_items, hours=9):
+    """Highest rain-probability (%) in the next `hours` of the 3-hourly
+    forecast. Current-conditions responses from OpenWeather don't include a
+    precipitation probability at all, so without this the 'Right Now' outfit
+    card could only ever react to rain that's *already* falling -- this lets
+    it warn about rain that's about to start, using the forecast we already
+    fetch for the same page."""
+    if not forecast_items:
+        return None
+    horizon = max(1, hours // 3)
+    pops = [it["pop"] for it in forecast_items[:horizon] if it.get("pop") is not None]
+    return max(pops) if pops else None
+
+
+def refresh_outfit_with_forecast(weather, forecast):
+    """Recompute weather['outfit'] using the near-term rain chance from the
+    forecast, which _build_current_from_response() has no access to on its
+    own (see _near_term_pop). Safe to call with forecast=None/[]."""
+    if not weather:
+        return weather
+    pop = _near_term_pop(forecast)
+    weather["outfit"] = build_outfit_advice(
+        temp_c=weather["temperature"],
+        feels_like_c=weather["feels_like"],
+        weather_main=weather["weather_main"],
+        description=weather["description"],
+        humidity=weather["humidity"],
+        wind_speed=weather["wind_speed"],
+        pop=pop,
+        aqi=weather["aqi"],
+        is_day=weather["is_day"],
+    )
+    return weather
 
 
 # ---------------------------------------------------------------------------
@@ -507,7 +551,7 @@ def build_hourly(forecast_items, limit=8):
     return forecast_items[:limit]
 
 
-def build_daily(forecast_items, max_days=6):
+def build_daily(forecast_items, max_days=6, current_aqi=None):
     """Group the 3-hour slots into per-day cards (high/low, dominant sky,
     and a day-specific outfit tip) -- effectively a 5-6 day outlook, which is
     the maximum the free 3-hour forecast endpoint (and the bundled demo data)
@@ -552,7 +596,7 @@ def build_daily(forecast_items, max_days=6):
             humidity=avg_humidity,
             wind_speed=avg_wind,
             pop=max_pop,
-            aqi=None,
+            aqi=current_aqi,
             is_day=True,
         )
 
@@ -602,8 +646,26 @@ def _get_context_weather():
     forecast = None
     if weather:
         forecast = get_forecast(city=city, lat=lat, lon=lon, tz_offset=weather.get("timezone_offset", 0))
+        refresh_outfit_with_forecast(weather, forecast)
 
     return weather, forecast
+
+
+def get_quick_weather_batch(cities, limit=8):
+    """Live current conditions for a list of saved city names, for the
+    home-page 'Your Cities at a Glance' favorites board. Skips (rather than
+    fails) any city that can't be resolved, and is capped at `limit` so a
+    long saved-cities list can't turn one page load into dozens of API
+    calls."""
+    results = []
+    for city in cities[:limit]:
+        try:
+            w = get_current_weather(city=city)
+            if w:
+                results.append(w)
+        except Exception:
+            pass
+    return results
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -625,6 +687,7 @@ def index():
             session["last_lat"] = lat
             session["last_lon"] = lon
             forecast = get_forecast(city=city or None, lat=lat, lon=lon, tz_offset=weather.get("timezone_offset", 0))
+            refresh_outfit_with_forecast(weather, forecast)
         else:
             error = "City not found or invalid coordinates!"
             weather, forecast = _get_context_weather()
@@ -632,12 +695,14 @@ def index():
         weather, forecast = _get_context_weather()
 
     hourly = build_hourly(forecast, limit=8) if forecast else None
-    daily = build_daily(forecast, max_days=6) if forecast else None
+    daily = build_daily(forecast, max_days=6, current_aqi=weather.get("aqi") if weather else None) if forecast else None
+    saved_cities = session.get("saved_cities", [])
+    favorites = get_quick_weather_batch(saved_cities) if saved_cities else []
 
     return render_template("dashboard.html", weather=weather, forecast=forecast,
                             hourly=hourly, daily=daily, first_visit=first_visit,
                             error=error, offline=offline_mode(), active_page="home",
-                            map_layers_enabled=not offline_mode())
+                            map_layers_enabled=not offline_mode(), favorites=favorites)
 
 
 @app.route("/hourly")
@@ -651,7 +716,7 @@ def hourly_page():
 @app.route("/daily")
 def daily_page():
     weather, forecast = _get_context_weather()
-    daily = build_daily(forecast, max_days=6) if forecast else None
+    daily = build_daily(forecast, max_days=6, current_aqi=weather.get("aqi") if weather else None) if forecast else None
     return render_template("daily.html", weather=weather, daily=daily,
                             offline=offline_mode(), active_page="daily")
 
@@ -659,7 +724,7 @@ def daily_page():
 @app.route("/outfit")
 def outfit_page():
     weather, forecast = _get_context_weather()
-    daily = build_daily(forecast, max_days=6) if forecast else None
+    daily = build_daily(forecast, max_days=6, current_aqi=weather.get("aqi") if weather else None) if forecast else None
     return render_template("outfit.html", weather=weather, daily=daily,
                             offline=offline_mode(), active_page="outfit")
 
